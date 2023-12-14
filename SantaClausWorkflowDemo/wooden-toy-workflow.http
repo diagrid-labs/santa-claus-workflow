@@ -1,0 +1,16 @@
+@dapr_url=http://localhost:3500
+@workflow_id={{$guid}}
+
+###
+### Run Hello World workflow
+###
+// @name wfrequest
+POST {{dapr_url}}/v1.0-beta1/workflows/dapr/HelloWorldWorkflow/start?instanceID={{workflow_id}}
+Content-Type: application/text/plain
+
+"World"
+
+
+### Get status for Hello World workflow
+@workflow_helloworld_id_response={{wfrequest.response.body.instanceID}}
+GET {{dapr_url}}/v1.0-beta1/workflows/dapr/{{workflow_helloworld_id_response}}
