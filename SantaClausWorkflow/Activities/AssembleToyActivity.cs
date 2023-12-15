@@ -19,7 +19,7 @@ namespace SantaClausWorkflowDemo
             Console.WriteLine($"Starting assembly of {input.GiftId} at {input.WorkbenchId}...");
 
             var partIds = await _daprClient.GetStateAsync<string[]>("statestore", input.WorkbenchId);
-            Console.WriteLine($"Assembling {partIds.Length} for {input.GiftId}...");
+            Console.WriteLine($"Assembling {partIds.Length} parts for {input.GiftId}...");
 
             var random = new Random();
             Thread.Sleep(random.Next(500, 500 * partIds.Length));

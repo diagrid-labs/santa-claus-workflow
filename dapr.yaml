@@ -2,7 +2,7 @@ version: 1
 common:
   resourcesPath: Resources
 apps:
-  - appID: basic-workflows
+  - appID: santa-claus-workflow
     appDirPath: SantaClausWorkflow
     appPort: 5065
     daprHTTPPort: 3500

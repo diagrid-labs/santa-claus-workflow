@@ -17,7 +17,7 @@ namespace SantaClausWorkflowDemo
             PutGiftInSleighInput input)
         {
             Console.WriteLine($"Picking up {input.GiftId} from {input.WorkbenchId} and putting it in the sleigh...");
-
+            Thread.Sleep(1000);
             // Remove the workbench state
             await _daprClient.DeleteStateAsync("statestore", input.WorkbenchId);
 

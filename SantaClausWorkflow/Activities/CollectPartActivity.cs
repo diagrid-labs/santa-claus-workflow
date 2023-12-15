@@ -9,8 +9,7 @@ namespace SantaClausWorkflowDemo
             CollectPartInput input)
         {
             Console.WriteLine($"Collecting {input.PartId} for {input.GiftId}...");
-            var random = new Random();
-            Thread.Sleep(random.Next(500, 1000));
+            Thread.Sleep(1000);
 
             return Task.FromResult(new CollectPartOutput(true));
         }

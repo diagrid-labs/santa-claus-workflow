@@ -11,7 +11,7 @@ namespace SantaClausWorkflowDemo
             Console.WriteLine($"Binding {input.NumberOfPages} pages for {input.GiftId}...");
 
             var random = new Random();
-            Thread.Sleep(random.Next(50, 50 * input.NumberOfPages));
+            Thread.Sleep(random.Next(100, 100 * input.NumberOfPages));
 
             return Task.FromResult(new BindBookOutput(true));
         }

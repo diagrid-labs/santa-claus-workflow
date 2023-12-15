@@ -10,6 +10,7 @@ namespace SantaClausWorkflowDemo
         {
             var giftId = $"Gift-{Guid.NewGuid()}";
             Console.WriteLine($"Registering {giftId} for {input.Name} ({input.GiftType})");
+            Thread.Sleep(1000);
 
             return Task.FromResult(new RegisterGiftOutput(giftId));
         }

@@ -9,8 +9,7 @@ namespace SantaClausWorkflowDemo
             NaughtyOrNiceInput input)
         {
             Console.WriteLine($"Checking if {input.Name} is naughty or nice...");
-            var random = new Random();
-            Thread.Sleep(random.Next(500, 1000));
+            Thread.Sleep(1000);
 
             return Task.FromResult(new NaughtyOrNiceOutput(NaughtyOrNice.Nice));
         }

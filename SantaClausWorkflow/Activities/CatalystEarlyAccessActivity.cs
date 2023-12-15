@@ -9,7 +9,7 @@ namespace SantaClausWorkflowDemo
             CatalystEarlyAccessAInput input)
         {
             Console.WriteLine($"Getting the Catalyst Early Access link for {input.Name}...");
-
+            Thread.Sleep(1000);
             string message = $"Hi {input.Name}, here's the link to get early access to Diagrid Catalyst: https://diagrid.ws/catalyst-early-access";
             Console.WriteLine(message);
 

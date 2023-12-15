@@ -10,6 +10,7 @@ namespace SantaClausWorkflowDemo
         {
             var workbenchId = $"Workbench-{Guid.NewGuid()}";
             Console.WriteLine($"Assigning {workbenchId} for {input.GiftId}...");
+            Thread.Sleep(1000);
 
             return Task.FromResult(new AssignWorkbenchOutput(workbenchId));
         }

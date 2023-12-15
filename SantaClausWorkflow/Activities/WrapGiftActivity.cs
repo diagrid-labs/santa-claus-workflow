@@ -9,8 +9,7 @@ namespace SantaClausWorkflowDemo
             WrapGiftInput input)
         {
             Console.WriteLine($"Wrapping {input.GiftId} for {input.Name}...");
-            var random = new Random();
-            Thread.Sleep(random.Next(500, 1000));
+            Thread.Sleep(1000);
 
             return Task.FromResult(new WrapGiftOutput(true));
         }

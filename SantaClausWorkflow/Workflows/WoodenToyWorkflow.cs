@@ -9,7 +9,7 @@ namespace SantaClausWorkflowDemo
             // The elf managing the inventory database wil execute a query to identify the parts for the wooden gift.
             var identifyPartsOutput = await context.CallActivityAsync<LookupPartsOutput>(
                 nameof(LookupPartsActivity),
-                new LookupPartsInput(input.GiftId));
+                new LookupPartsInput(input.GiftId, input.WorkbenchId));
 
             // Many elves will collect the individual parts and deliver it to the workbench.
             var collectPartTasks = new List<Task<CollectPartOutput>>();

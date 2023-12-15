@@ -9,8 +9,7 @@ namespace SantaClausWorkflowDemo
             WritePageInput input)
         {
             Console.WriteLine($"Writing page {input.PageNumber} for {input.GiftId}...");
-            var random = new Random();
-            Thread.Sleep(random.Next(500, 1000));
+            Thread.Sleep(1000);
 
             return Task.FromResult(new WritePageOutput(true));
         }

@@ -3,11 +3,10 @@ using SantaClausWorkflowDemo;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDaprClient();
 builder.Services.AddDaprWorkflowClient();
 builder.Services.AddDaprWorkflow(options =>
 {
-    // Note that it's also possible to register a lambda function as the workflow
-    // or activity implementation instead of a class.
     options.RegisterWorkflow<ChristmasGiftWorkflow>();
     options.RegisterWorkflow<BookWorkflow>();
     options.RegisterWorkflow<WoodenToyWorkflow>();
@@ -46,16 +45,22 @@ if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DAPR_GRPC_PORT")))
 }
 
 var app = builder.Build();
-
-app.Run();
+var workflowClient = app.Services.GetRequiredService<DaprWorkflowClient>();
 
 app.MapPost("/start", async (ChristmasGiftInput input) =>
 {
-     var workflowClient = app.Services.GetRequiredService<DaprWorkflowClient>();
-
     var instanceId = await workflowClient.ScheduleNewWorkflowAsync(
         name: nameof(ChristmasGiftWorkflow),
         input: input);
     
     return instanceId;
 });
+
+app.MapGet("/status/{instanceId}", async (string instanceId) =>
+{
+    return await workflowClient.GetWorkflowStateAsync(
+        instanceId,
+        getInputsAndOutputs: true);
+});
+
+app.Run();

@@ -9,7 +9,7 @@ namespace SantaClausWorkflowDemo
             DetermineBookContentInput input)
         {
             Console.WriteLine($"Determining the book content and length for {input.GiftId}...");
-
+            Thread.Sleep(1000);
             var random = new Random();
             var numberOfPages = random.Next(10, 100);
 

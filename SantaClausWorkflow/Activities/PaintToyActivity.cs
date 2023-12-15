@@ -9,8 +9,7 @@ namespace SantaClausWorkflowDemo
             PaintToyInput input)
         {
             Console.WriteLine($"Start to paint {input.GiftId} on {input.WorkbenchId}...");
-            var random = new Random();
-            Thread.Sleep(random.Next(500, 1000));
+            Thread.Sleep(1000);
 
             return Task.FromResult(new PaintToyOutput(true));
         }
