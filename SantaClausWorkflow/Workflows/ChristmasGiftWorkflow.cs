@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Dapr.Workflow;
 
 namespace SantaClausWorkflowDemo
@@ -65,6 +66,8 @@ namespace SantaClausWorkflowDemo
 
     public record ChristmasGiftInput(string Name, GiftType GiftType);
     public record ChristmasGiftOutput(string message);
+    
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum GiftType
     {
         Book = 0,
