@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SantaClausWorkflowDemo", "SantaClausWorkflowDemo\SantaClausWorkflowDemo.csproj", "{99B820F1-23AE-49D9-97E9-57498224625F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SantaClausWorkflow", "SantaClausWorkflow\SantaClausWorkflow.csproj", "{99B820F1-23AE-49D9-97E9-57498224625F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

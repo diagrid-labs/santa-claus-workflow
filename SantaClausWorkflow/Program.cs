@@ -7,16 +7,34 @@ builder.Services.AddDaprWorkflow(options =>
 {
     // Note that it's also possible to register a lambda function as the workflow
     // or activity implementation instead of a class.
+    options.RegisterWorkflow<ChristmasGiftWorkflow>();
+    options.RegisterWorkflow<BookWorkflow>();
     options.RegisterWorkflow<WoodenToyWorkflow>();
+    options.RegisterWorkflow<GetCatalystEarlyAccessWorkflow>();
 
     // These are the activities that get invoked by the workflow(s).
+    // The ChristmasGiftWorkflow activities:
+    options.RegisterActivity<NaughtyOrNiceActivity>();
     options.RegisterActivity<RegisterGiftActivity>();
+    options.RegisterActivity<WrapGiftActivity>();
+    options.RegisterActivity<PutGiftInSleighActivity>();
+
+    // Shared activities:
     options.RegisterActivity<AssignWorkbenchActivity>();
-    options.RegisterActivity<IdentifyPartsActivity>();
+
+    // The WoodenToyWorkflow activities:
+    options.RegisterActivity<LookupPartsActivity>();
     options.RegisterActivity<CollectPartActivity>();
     options.RegisterActivity<AssembleToyActivity>();
     options.RegisterActivity<PaintToyActivity>();
-    options.RegisterActivity<WrapToyActivity>();
+    
+    // The BookWorkflow activities:
+    options.RegisterActivity<DetermineBookContentActivity>();
+    options.RegisterActivity<WritePageActivity>();
+    options.RegisterActivity<BindBookActivity>();
+
+    // The GetCatalystEarlyAccessWorkflow activities:
+    options.RegisterActivity<CatalystEarlyAccessActivity>();
 });
 
 // Dapr uses a random port for gRPC by default. If we don't know what that port

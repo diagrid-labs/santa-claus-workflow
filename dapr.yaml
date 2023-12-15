@@ -3,7 +3,7 @@ common:
   resourcesPath: ResourcesLocal
 apps:
   - appID: basic-workflows
-    appDirPath: .
+    appDirPath: SantaClausWorkflowDemo
     appPort: 5065
     daprHTTPPort: 3500
     command: ["dotnet", "run"]
