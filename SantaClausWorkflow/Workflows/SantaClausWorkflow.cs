@@ -2,9 +2,9 @@ using Dapr.Workflow;
 
 namespace SantaClausWorkflowDemo
 {
-    public class SantaClausWorkflow : Workflow<IEnumerable<ChristmasWishInput>, string[]>
+    public class SantaClausWorkflow : Workflow<ChristmasWishInput[], string[]>
     {
-        public override async Task<string[]> RunAsync(WorkflowContext context, IEnumerable<ChristmasWishInput> wishes)
+        public override async Task<string[]> RunAsync(WorkflowContext context, ChristmasWishInput[] wishes)
         {
             var christmasWishWorkflowTasks = new List<Task<ChristmasWishOutput>>();
             

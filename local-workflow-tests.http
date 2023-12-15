@@ -1,6 +1,5 @@
 @app_url=http://localhost:5065
 @dapr_url=http://localhost:3500
-@workflow_id={{$guid}}
 
 ### ------------------------------
 ### Call the start endpoint of the web app
@@ -24,23 +23,36 @@ Content-Type: application/json
 ]
 
 ### ------------------------------
-### Call the start endpoint of the web app
+### Get the SantaClausWorkflow status via the Dapr API
 @instanceId={{startRequest.response.body.*}}
-GET {{app_url}}/status/{{instanceId}}
+GET {{dapr_url}}/v1.0-beta1/workflows/dapr/{{instanceId}}
+
 
 ### ------------------------------
-### Run the ChristmasGiftWorkflow via the Dapr API
+### Run the SantaClausWorkflow via the Dapr API
 ###
+@workflow_id={{$guid}}
+
 // @name wfrequest
-POST {{dapr_url}}/v1.0-beta1/workflows/dapr/ChristmasGiftWorkflow/start?instanceID={{workflow_id}}
+POST {{dapr_url}}/v1.0-beta1/workflows/dapr/SantaClausWorkflow/start?instanceID={{workflow_id}}
 Content-Type: application/json
 
-{
-    "Name" : "Alex",
-    "GiftType" : "Book"
-}
+[
+    {
+        "Name" : "Alex",
+        "GiftType" : "WoodenToy"
+    },
+    {
+        "Name" : "Rene",
+        "GiftType" : "Book"
+    },
+    {
+        "Name" : "Robin",
+        "GiftType" : "CatalystEarlyAccess"
+    }
+]
 
 ### ------------------------------
-### Get the ChristmasGiftWorkflow status via the Dapr API
+### Get the SantaClausWorkflow status via the Dapr API
 @wfresponse={{wfrequest.response.body.instanceID}}
 GET {{dapr_url}}/v1.0-beta1/workflows/dapr/{{wfresponse}}

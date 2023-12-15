@@ -61,9 +61,7 @@ app.MapPost("/start", async (ChristmasWishInput[] wishes) =>
 
 app.MapGet("/status/{instanceId}", async (string instanceId) =>
 {
-    return await workflowClient.GetWorkflowStateAsync(
-        instanceId,
-        getInputsAndOutputs: true);
+    return await workflowClient.GetWorkflowStateAsync(instanceId);
 });
 
 app.Run();
