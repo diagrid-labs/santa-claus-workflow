@@ -2,20 +2,20 @@ using Dapr.Workflow;
 
 namespace SantaClausWorkflowDemo
 {
-    public class RegisterGiftActivity : WorkflowActivity<RegisterGiftInput, RegisterGiftOutput>
+    public class RegisterWishActivity : WorkflowActivity<RegisterWishInput, RegisterWishOutput>
     {
-        public override Task<RegisterGiftOutput> RunAsync(
+        public override Task<RegisterWishOutput> RunAsync(
             WorkflowActivityContext context,
-            RegisterGiftInput input)
+            RegisterWishInput input)
         {
             var giftId = $"Gift-{Guid.NewGuid()}";
             Console.WriteLine($"Registering {giftId} for {input.Name} ({input.GiftType})");
             Thread.Sleep(1000);
 
-            return Task.FromResult(new RegisterGiftOutput(giftId));
+            return Task.FromResult(new RegisterWishOutput(giftId));
         }
     }
 
-    public record RegisterGiftInput(string Name, GiftType GiftType);
-    public record RegisterGiftOutput(string GiftId);
+    public record RegisterWishInput(string Name, GiftType GiftType);
+    public record RegisterWishOutput(string GiftId);
 }

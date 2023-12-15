@@ -3,9 +3,9 @@ using Dapr.Workflow;
 
 namespace SantaClausWorkflowDemo
 {
-    public class ChristmasGiftWorkflow : Workflow<ChristmasGiftInput, ChristmasGiftOutput>
+    public class ChristmasWishWorkflow : Workflow<ChristmasWishInput, ChristmasWishOutput>
     {
-        public override async Task<ChristmasGiftOutput> RunAsync(WorkflowContext context, ChristmasGiftInput input)
+        public override async Task<ChristmasWishOutput> RunAsync(WorkflowContext context, ChristmasWishInput input)
         {
             // Check Santa book if the person is naughty or nice.
             var naughtyOrNiceOutput = await context.CallActivityAsync<NaughtyOrNiceOutput>(
@@ -14,20 +14,20 @@ namespace SantaClausWorkflowDemo
             
             if (naughtyOrNiceOutput.NaughtyOrNice == NaughtyOrNice.Naughty)
             {
-                return new ChristmasGiftOutput($"Sorry {input.Name}, you are on the naughty list!");
+                return new ChristmasWishOutput($"Sorry {input.Name}, you are on the naughty list!");
             }
 
-            // Register the person & their gift in Santa's database.
-            var registerGiftOutput = await context.CallActivityAsync<RegisterGiftOutput>(
-                nameof(RegisterGiftActivity),
-                new RegisterGiftInput(
+            // Register the person & their wish in Santa's database.
+            var registerWishOutput = await context.CallActivityAsync<RegisterWishOutput>(
+                nameof(RegisterWishActivity),
+                new RegisterWishInput(
                     input.Name,
                     input.GiftType));
 
             // The floor manager elf will assign a workbench where the gift will be made and wrapped.
             var assignWorkbenchOutput = await context.CallActivityAsync<AssignWorkbenchOutput>(
                 nameof(AssignWorkbenchActivity),
-                new AssignWorkbenchInput(registerGiftOutput.GiftId));
+                new AssignWorkbenchInput(registerWishOutput.GiftId));
 
             // Find the workflow that matches the GiftType.
             var workflowName = GiftWorkflowMap[input.GiftType];
@@ -35,14 +35,14 @@ namespace SantaClausWorkflowDemo
             // Call the gift specific workflow.
             var giftWorkflowOutput = await context.CallChildWorkflowAsync<GiftWorkflowOutput>(
                 workflowName,
-                new GiftWorkflowInput(registerGiftOutput.GiftId, input.Name, assignWorkbenchOutput.WorkbenchId));
+                new GiftWorkflowInput(registerWishOutput.GiftId, input.Name, assignWorkbenchOutput.WorkbenchId));
 
             // An elf will wrap the gift.
             await context.CallActivityAsync<WrapGiftOutput>(
                 nameof(WrapGiftActivity),
                 new WrapGiftInput(
                     input.Name,
-                    registerGiftOutput.GiftId,
+                    registerWishOutput.GiftId,
                     assignWorkbenchOutput.WorkbenchId));
 
             // One of the logistic elves will collect the gift from
@@ -50,10 +50,10 @@ namespace SantaClausWorkflowDemo
             await context.CallActivityAsync<PutGiftInSleighOutput>(
                 nameof(PutGiftInSleighActivity),
                 new PutGiftInSleighInput(
-                    registerGiftOutput.GiftId,
+                    registerWishOutput.GiftId,
                     assignWorkbenchOutput.WorkbenchId));
 
-            return new ChristmasGiftOutput(giftWorkflowOutput.Message);
+            return new ChristmasWishOutput(giftWorkflowOutput.Message);
         }
 
         private readonly Dictionary<GiftType, string> GiftWorkflowMap = new()
@@ -64,8 +64,8 @@ namespace SantaClausWorkflowDemo
         };
     }
 
-    public record ChristmasGiftInput(string Name, GiftType GiftType);
-    public record ChristmasGiftOutput(string message);
+    public record ChristmasWishInput(string Name, GiftType GiftType);
+    public record ChristmasWishOutput(string Message);
     
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum GiftType

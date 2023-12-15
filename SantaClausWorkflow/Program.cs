@@ -7,7 +7,8 @@ builder.Services.AddDaprClient();
 builder.Services.AddDaprWorkflowClient();
 builder.Services.AddDaprWorkflow(options =>
 {
-    options.RegisterWorkflow<ChristmasGiftWorkflow>();
+    options.RegisterWorkflow<SantaClausWorkflow>();
+    options.RegisterWorkflow<ChristmasWishWorkflow>();
     options.RegisterWorkflow<BookWorkflow>();
     options.RegisterWorkflow<WoodenToyWorkflow>();
     options.RegisterWorkflow<GetCatalystEarlyAccessWorkflow>();
@@ -15,9 +16,10 @@ builder.Services.AddDaprWorkflow(options =>
     // These are the activities that get invoked by the workflow(s).
     // The ChristmasGiftWorkflow activities:
     options.RegisterActivity<NaughtyOrNiceActivity>();
-    options.RegisterActivity<RegisterGiftActivity>();
+    options.RegisterActivity<RegisterWishActivity>();
     options.RegisterActivity<WrapGiftActivity>();
     options.RegisterActivity<PutGiftInSleighActivity>();
+    options.RegisterActivity<DeliverGiftsActivity>();
 
     // Shared activities:
     options.RegisterActivity<AssignWorkbenchActivity>();
@@ -47,11 +49,12 @@ if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DAPR_GRPC_PORT")))
 var app = builder.Build();
 var workflowClient = app.Services.GetRequiredService<DaprWorkflowClient>();
 
-app.MapPost("/start", async (ChristmasGiftInput input) =>
+app.MapPost("/start", async (ChristmasWishInput[] wishes) =>
 {
+    Console.WriteLine($"Starting workflow with {wishes.Length} wishes.");
     var instanceId = await workflowClient.ScheduleNewWorkflowAsync(
-        name: nameof(ChristmasGiftWorkflow),
-        input: input);
+        name: nameof(SantaClausWorkflow),
+        input: wishes);
     
     return instanceId;
 });

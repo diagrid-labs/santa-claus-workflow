@@ -8,10 +8,20 @@
 POST {{app_url}}/start
 Content-Type: application/json
 
-{
-    "Name" : "Alex",
-    "GiftType" : "WoodenToy"
-}
+[
+    {
+        "Name" : "Alex",
+        "GiftType" : "WoodenToy"
+    },
+    {
+        "Name" : "Rene",
+        "GiftType" : "Book"
+    },
+    {
+        "Name" : "Robin",
+        "GiftType" : "CatalystEarlyAccess"
+    }
+]
 
 ### ------------------------------
 ### Call the start endpoint of the web app
