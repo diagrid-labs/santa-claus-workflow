@@ -31,7 +31,7 @@ namespace SantaClausWorkflowDemo
             // The book binder elf will bind the pages together.
             await context.CallActivityAsync<BindBookOutput>(
                 nameof(BindBookActivity),
-                new BindBookInput(input.GiftId, input.WorkbenchId));
+                new BindBookInput(input.GiftId, input.WorkbenchId, determineBookContentOutput.NumberOfPages));
 
             // Return to the main ChristmasGiftWorkflow!
             return new GiftWorkflowOutput($"The book is ready for {input.Name}!");
