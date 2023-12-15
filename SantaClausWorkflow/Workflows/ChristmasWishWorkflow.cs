@@ -60,7 +60,7 @@ namespace SantaClausWorkflowDemo
         {
             { GiftType.Book, nameof(BookWorkflow) },
             { GiftType.WoodenToy, nameof(WoodenToyWorkflow) },
-            { GiftType.CatalystEarlyAccess, nameof(GetCatalystEarlyAccessWorkflow) },
+            { GiftType.CatalystEarlyAccess, nameof(CatalystEarlyAccessWorkflow) },
         };
     }
 

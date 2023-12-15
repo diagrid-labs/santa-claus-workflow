@@ -11,7 +11,7 @@ builder.Services.AddDaprWorkflow(options =>
     options.RegisterWorkflow<ChristmasWishWorkflow>();
     options.RegisterWorkflow<BookWorkflow>();
     options.RegisterWorkflow<WoodenToyWorkflow>();
-    options.RegisterWorkflow<GetCatalystEarlyAccessWorkflow>();
+    options.RegisterWorkflow<CatalystEarlyAccessWorkflow>();
 
     // These are the activities that get invoked by the workflow(s).
     // The ChristmasGiftWorkflow activities:
@@ -35,7 +35,7 @@ builder.Services.AddDaprWorkflow(options =>
     options.RegisterActivity<WritePageActivity>();
     options.RegisterActivity<BindBookActivity>();
 
-    // The GetCatalystEarlyAccessWorkflow activities:
+    // The CatalystEarlyAccessWorkflow activities:
     options.RegisterActivity<CatalystEarlyAccessActivity>();
 });
 

@@ -2,7 +2,7 @@ using Dapr.Workflow;
 
 namespace SantaClausWorkflowDemo
 {
-    public class GetCatalystEarlyAccessWorkflow : Workflow<GiftWorkflowInput, GiftWorkflowOutput>
+    public class CatalystEarlyAccessWorkflow : Workflow<GiftWorkflowInput, GiftWorkflowOutput>
     {
         public override async Task<GiftWorkflowOutput> RunAsync(WorkflowContext context, GiftWorkflowInput input)
         {
