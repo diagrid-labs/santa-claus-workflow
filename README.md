@@ -104,9 +104,10 @@ graph TD;
 ## Prerequisites
 
 1. [.NET 7 SDK](https://dotnet.microsoft.com/download/dotnet/7.0)
-2. [Dapr CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
+2. [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+3. [Dapr CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
    - Ensure that you're using v1.12 (or higher) of the Dapr runtime and the CLI.
-3. A REST client, such as [cURL](https://curl.se/), or the VSCode [REST client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).
+4. A REST client, such as [cURL](https://curl.se/), or the VSCode [REST client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).
 
 ## Running the solution locally
 
@@ -118,7 +119,7 @@ To run the SantaWorkflow:
     dotnet build
     ```
 
-2. Use the Dapr CLI to run the web app:
+2. Use the Dapr CLI to run the web app with the workflows (ensure that Docker is running):
 
     ```bash
     dapr run -f .
