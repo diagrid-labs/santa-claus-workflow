@@ -8,34 +8,98 @@ That's where [Dapr Workflow](https://docs.dapr.io/developing-applications/buildi
 
 ## Workflow overview
 
-These are the workflows Santa is using:
+This diagram shows an overview of the various workflows and activities that Santa is using to orchestrate the activities of his elves.
 
 ```mermaid
 graph TD;
+    subgraph SantaClausWorkflow
     Start((Start:\n list of wishes))
-    SW[SantaClausWorkflow]
-    CW[ChristmasWishWorkflow]
-    BW[BookWorkflow]
-    WW[WoodenToyWorkflow]
-    CEAW[CatalystEarlyAccessWorkflow]
-    End((End))
+        CW[Start ChristmasWishWorkflow]
+        subgraph ChristmasWishWorkflow
+            NNA[NaughtyOrNiceActivity]
+            RWA[RegisterWishActivity]
+            AWA[AssignWorkbenchActivity]
+            Choose{ChooseWorkflow\nbased on GiftType}
+            BW[BookWorkflow]
+            WW[WoodenToyWorkflow]
+            CEAW[CatalystEarlyAccessWorkflow]
+            WA[WrapActivity]
+            PGA[PutGiftInSleighActivity]
+        end
+        Deliver[DeliverGiftsActivity]
+        End((End))
+    end
 
-    Start-->|Start workflow|SW;
-    SW-->|For each wish in the list|CW;
-    CW-->|GiftType=book|BW;
-    CW-->|GiftType=wooden toy|WW;
-    CW-->|GiftType=Catalyst early access|CEAW;
+    Start-->|For each wish in the list|CW;
+    CW-->NNA
+    NNA-->|Is nice|RWA
+    NNA-->|Is naughty|End
+    RWA-->AWA
+    AWA-->Choose
+    Choose-->|GiftType=book|BW;
+    Choose-->|GiftType=wooden toy|WW;
+    Choose-->|GiftType=Catalyst early access|CEAW;
 
-    BW-->End
-    WW-->End
-    CEAW-->End
+    BW-->WA
+    WW-->WA
+    CEAW-->WA
+    WA-->PGA
+    PGA-->Deliver
+
+    Deliver-->End
 ```
+
+These are the workflows Santa is using:
 
 - [SantaClausWorkflow](./SantaClausWorkflow/Workflows/SantaClausWorkflow.cs): The main workflow that takes an array of wishes and starts a child workflow (ChristmasWishWorkflow) for each of the wishes.
 - [ChristmasWishWorkflow](./SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs): This workflow contains activities to check if the person is naughty or nice, and if they are nice, a gift is selected and registered for that person. Based on the type of gift, another child workflow (BookWorkflow, WoodenToyWorkflow, CatalystEarlyAccessWorkflow) is started to make the gift. Once that child workflow is finished, activities are called to wrap the gift and load it into the sleigh.
 - [BookWorkflow](./SantaClausWorkflow/Workflows/BookWorkflow.cs): This workflow contains activities to prepare a book as a gift.
 - [WoodenToyWorkflow](./SantaClausWorkflow/Workflows/WoodenToyWorkflow.cs): This workflow contains activities to build a wooden toy. It calls activities to lookup the parts, assemble the parts, and paint the toy.
 - [CatalystEarlyAccessWorkflow](./SantaClausWorkflow/Workflows/CatalystEarlyAccessWorkflow.cs): This workflow contains one activity that returns a link to get early access to Diagrid Catalyst, so they can make complex architectures simple, reliable and secure with APIs that connect to their existing infrastructure and work with their existing code.
+
+<details>
+    <summary>Click to expand the <code>BookWorkflow</code> diagram</summary>
+
+```mermaid
+graph TD;
+    Start((Start))-->DetermineBookContentActivity
+    subgraph fan-out/fan-in for each part in the book
+        WritePageActivity
+    end
+    DetermineBookContentActivity-->WritePageActivity
+    WritePageActivity-->BindBookActivity
+    BindBookActivity-->End((End))
+```
+
+</details>
+
+<details>
+    <summary>Click to expand the <code>WoodenToyWorkflow</code> diagram</summary>
+
+```mermaid
+graph TD;
+    Start((Start))-->LookupPartsActivity
+    subgraph fan-out/fan-in for each part of the toy
+        CollectPartActivity
+    end
+    LookupPartsActivity-->CollectPartActivity
+    CollectPartActivity-->AssembleToyActivity
+    AssembleToyActivity-->PaintToyActivity
+    PaintToyActivity-->End((End))
+```
+
+</details>
+
+<details>
+    <summary>Click to expand the <code>CatalystEarlyAccessWorkflow</code> diagram</summary>
+
+```mermaid
+graph TD;
+    Start((Start))-->CatalystEarlyAccessActivity
+    CatalystEarlyAccessActivity-->End((End))
+```
+
+</details>
 
 ## Prerequisites
 
