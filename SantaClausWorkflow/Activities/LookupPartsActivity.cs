@@ -23,7 +23,9 @@ namespace SantaClausWorkflowDemo
             Thread.Sleep(1000);
             var random = new Random();
             var partsRange = new Range(1, random.Next(1, 10));
-            var partIds = Enumerable.Range(partsRange.Start.Value, partsRange.End.Value).Select(x => $"Part{x}-{Guid.NewGuid()}").ToArray();
+            var partIds = Enumerable.Range(partsRange.Start.Value, partsRange.End.Value)
+                .Select(x => $"Part{x}-{Guid.NewGuid()}")
+                .ToArray();
 
             await _daprClient.SaveStateAsync("statestore", input.WorkbenchId , partIds);
             Console.WriteLine($"Identified parts for {input.GiftId}: {string.Join(",", partIds)}...");

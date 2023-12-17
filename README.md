@@ -6,7 +6,7 @@ Santa Claus is using [Dapr](https://dapr.io/) to ensure everyone gets their Chri
 
 That's where [Dapr Workflow](https://docs.dapr.io/developing-applications/building-blocks/workflow/workflow-overview/) comes in. Santa defines his workflow in code (he prefers C#, but Python or Java can also be used) where he specifies the sequence and conditions of the activities. Dapr Workflow takes care of the orchestration logic, fault tolerance, and scalability of the workflow, so Santa can focus on the business logic is assured of optimal elf efficiency.
 
-## Dapr Workflow
+## Workflow overview
 
 These are the workflows Santa is using:
 

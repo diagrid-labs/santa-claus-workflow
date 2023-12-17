@@ -7,13 +7,13 @@ namespace SantaClausWorkflowDemo
         public override async Task<GiftWorkflowOutput> RunAsync(WorkflowContext context, GiftWorkflowInput input)
         {
             // The elf managing the inventory database wil execute a query to identify the parts for the wooden gift.
-            var identifyPartsOutput = await context.CallActivityAsync<LookupPartsOutput>(
+            var lookupPartsOutput = await context.CallActivityAsync<LookupPartsOutput>(
                 nameof(LookupPartsActivity),
                 new LookupPartsInput(input.GiftId, input.WorkbenchId));
 
             // Many elves will collect the individual parts and deliver it to the workbench.
             var collectPartTasks = new List<Task<CollectPartOutput>>();
-            foreach (var partId in identifyPartsOutput.PartIds)
+            foreach (var partId in lookupPartsOutput.PartIds)
             {
                 collectPartTasks.Add(context.CallActivityAsync<CollectPartOutput>(
                     nameof(CollectPartActivity),

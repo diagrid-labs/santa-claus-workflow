@@ -1,0 +1,186 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "SantaClausWorkflow",
+  "steps": [
+    {
+      "file": "SantaClausWorkflow/SantaClausWorkflow.csproj",
+      "description": "### SantaClausWorkflow.csproj\r\n\r\nThe project file has a reference to the `Dapr.Workflow` NuGet package. This contians the Dapr workflow base types which are needed to write the workflows in C#.",
+      "line": 11
+    },
+    {
+      "file": "SantaClausWorkflow/Program.cs",
+      "description": "### Program.cs - Extension methods\r\n\r\nThe `AddDaprWorkflow` extension method is used to register the workflows and workflow activities.\r\n\r\nSince this application also contains code to start the workflow, the `AddDaprWorkflowClient` method is also used.\r\n\r\nThe `AddDaprClient` extension method is not required for Dapr Workflow, but this application uses the Dapr client SDK for interacting with a state store in some workflow activities.",
+      "line": 8
+    },
+    {
+      "file": "SantaClausWorkflow/Program.cs",
+      "description": "### Program.cs - DaprWorkflowClient instance\r\n\r\nA `DaprWorkflowClient` instance is retrieved from the `ServiceProvider`. ",
+      "line": 50
+    },
+    {
+      "file": "SantaClausWorkflow/Program.cs",
+      "description": "### Program.cs - /start endpoint\r\n\r\nThe `workflowClient` instance is used when an HTTP POST is made to the `/start` endpoint where a new `SantaClausWorkflow` is scheduled. The array of wishes is provided as the input argument.",
+      "line": 52
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/SantaClausWorkflow.cs",
+      "description": "### SantaClausWorkflow\r\n\r\nThe `SantaClausWorkflow` inherits from the `Workflow` base class. The workflow takes an array of `ChristmasWishInput` objects and has an array of `string` as the output.",
+      "line": 5
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/SantaClausWorkflow.cs",
+      "description": "### SantaClausWorkflow - RunAsync\r\n\r\nThe `RunAsync` method contains the workflow logic. This workflow uses the fan-out/fan-in pattern. For each of the wishes in the array, a new  task is created to schedule the `ChristmasWishWorkflow` and is added to the `christmasWishWorkflowTasks` list.",
+      "line": 7
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/SantaClausWorkflow.cs",
+      "description": "### SantaClausWorkflow - Task.WhenAll\r\n\r\nThis is the moment when all `christmasWishWorkflowTasks` are scheduled and executed. The `SantaClausWorkflow` will wait with further execution until all the `ChristmasWishWorkflow` are complete.",
+      "line": 18
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/SantaClausWorkflow.cs",
+      "description": "### SantaClausWorkflow - Call DeliverGiftsActivity\r\n\r\nOnce all the gifts are ready and packed on the sleigh, Santa can deliver the gifts so the `DeliverGiftsActivity` is scheduled.",
+      "line": 22
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/SantaClausWorkflow.cs",
+      "description": "### SantaClausWorkflow - return messages\r\n\r\nThe `SantaClausWorkflow` returns an array of messages that come from the individual `ChristmasWishWorkflow` instances.",
+      "line": 24
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs",
+      "description": "### ChristmasWishWorkflow\r\n\r\nThe `ChristmasWishWorkflow` contains the shared logic that is executed for every wish.",
+      "line": 6
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs",
+      "description": "### ChristmasWishWorkflow - Call NaughtyOrNiceActivity",
+      "line": 13
+    },
+    {
+      "file": "SantaClausWorkflow/Activities/NaughtyOrNiceActivity.cs",
+      "description": "### NaughtyOrNiceActivity",
+      "line": 5
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs",
+      "description": "### ChristmasWishWorkflow - NaughtyOrNice result",
+      "line": 18
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs",
+      "description": "### ChristmasWishWorkflow - Call RegisterWishActivity",
+      "line": 25
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs",
+      "description": "### ChristmasWishWorkflow - Call AssignWorkbenchActivity",
+      "line": 30
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs",
+      "description": "### ChristmasWishWorkflow - Get workflow for gift type",
+      "line": 33
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs",
+      "description": "### ChristmasWishWorkflow - GiftWorkflowMap Dictionary",
+      "line": 64
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs",
+      "description": "### ChristmasWishWorkflow - CallChildWorkflow for the gift type",
+      "line": 38
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs",
+      "description": "### ChristmasWishWorkflow - Call WrapGiftActivity",
+      "line": 46
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs",
+      "description": "### ChristmasWishWorkflow - Call PutGiftInSleighActivity",
+      "line": 54
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs",
+      "description": "### ChristmasWishWorkflow - return message\r\n\r\nReturn the specific gift workflow message back to the parent workflow (`SantaClausWorkflow`).",
+      "line": 56
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/BookWorkflow.cs",
+      "description": "### BookWorkflow\r\n\r\nThe `BookWorkflow` contains the orchestration logic for creating a new book. It uses generic `GiftWorkflowInput` and `GiftWorkflowOutput` types that are also used for the other specific gift workflows.",
+      "line": 5
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/BookWorkflow.cs",
+      "description": "### BookWorkflow - Call DetermineBookContentActivity",
+      "line": 14
+    },
+    {
+      "file": "SantaClausWorkflow/Activities/DetermineBookContentActivity.cs",
+      "description": "### DetermineBookContentActivity",
+      "line": 7
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/BookWorkflow.cs",
+      "description": "### BookWorkflow - fan-out/fan-in for WritePageActivity",
+      "line": 26
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/BookWorkflow.cs",
+      "description": "### BookWorkflow - Call BindBookActivity",
+      "line": 34
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/BookWorkflow.cs",
+      "description": "### BookWorkflow - return message\r\n\r\nReturn a message back to the parent workflow (`ChristmasGiftWorkflow`).",
+      "line": 37
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/WoodenToyWorkflow.cs",
+      "description": "### WoodenToyWorkflow\r\n\r\nThe `WoodenToyWorkflow` contains all the logic to build a new wooden toy as a gift. It uses generic `GiftWorkflowInput` and `GiftWorkflowOutput` types that are also used for the other specific gift workflows.",
+      "line": 5,
+      "selection": {
+        "start": {
+          "line": 3,
+          "character": 126
+        },
+        "end": {
+          "line": 3,
+          "character": 144
+        }
+      }
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/WoodenToyWorkflow.cs",
+      "description": "### WoodenToyWorkflow - Call LookupPartsActivity",
+      "line": 12
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/WoodenToyWorkflow.cs",
+      "description": "### WoodenToyWorkflow - fan-out/fan-in for CollectPartActivity",
+      "line": 21
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/WoodenToyWorkflow.cs",
+      "description": "### WoodenToyWorkflow - Call AssembleToyActivity",
+      "line": 29
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/WoodenToyWorkflow.cs",
+      "description": "### WoodenToyWorkflow - Call PaintToyActivity",
+      "line": 34
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/WoodenToyWorkflow.cs",
+      "description": "### WoodenToyWorkflow - return message",
+      "line": 37
+    },
+    {
+      "file": "SantaClausWorkflow/Workflows/CatalystEarlyAccessWorkflow.cs",
+      "description": "### CatalystEarlyAccessWorkflow\r\n\r\nThe `CatalystEarlyAccessWorkflow` contains one activity that returns a link to get early access to Diagrid Catalyst. It uses generic `GiftWorkflowInput` and `GiftWorkflowOutput` types that are also used for the other specific gift workflows.",
+      "line": 5
+    }
+  ]
+}

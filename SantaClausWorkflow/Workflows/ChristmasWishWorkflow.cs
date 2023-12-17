@@ -14,7 +14,7 @@ namespace SantaClausWorkflowDemo
             
             if (naughtyOrNiceOutput.NaughtyOrNice == NaughtyOrNice.Naughty)
             {
-                return new ChristmasWishOutput($"Sorry {input.Name}, you are on the naughty list!");
+                return new ChristmasWishOutput($"{input.Name}, is on the naughty list!");
             }
 
             // Register the person & their wish in Santa's database.
