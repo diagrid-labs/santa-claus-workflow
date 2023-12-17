@@ -6,7 +6,30 @@ Santa Claus is using [Dapr](https://dapr.io/) to ensure everyone gets their Chri
 
 That's where [Dapr Workflow](https://docs.dapr.io/developing-applications/building-blocks/workflow/workflow-overview/) comes in. Santa defines his workflow in code (he prefers C#, but Python or Java can also be used) where he specifies the sequence and conditions of the activities. Dapr Workflow takes care of the orchestration logic, fault tolerance, and scalability of the workflow, so Santa can focus on the business logic is assured of optimal elf efficiency.
 
-These are the workflows Santa has written:
+## Dapr Workflow
+
+These are the workflows Santa is using:
+
+```mermaid
+graph TD;
+    Start((Start:\n list of wishes))
+    SW[SantaClausWorkflow]
+    CW[ChristmasWishWorkflow]
+    BW[BookWorkflow]
+    WW[WoodenToyWorkflow]
+    CEAW[CatalystEarlyAccessWorkflow]
+    End((End))
+
+    Start-->|Start workflow|SW;
+    SW-->|For each wish in the list|CW;
+    CW-->|GiftType=book|BW;
+    CW-->|GiftType=wooden toy|WW;
+    CW-->|GiftType=Catalyst early access|CEAW;
+
+    BW-->End
+    WW-->End
+    CEAW-->End
+```
 
 - [SantaClausWorkflow](./SantaClausWorkflow/Workflows/SantaClausWorkflow.cs): The main workflow that takes an array of wishes and starts a child workflow (ChristmasWishWorkflow) for each of the wishes.
 - [ChristmasWishWorkflow](./SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs): This workflow contains activities to check if the person is naughty or nice, and if they are nice, a gift is selected and registered for that person. Based on the type of gift, another child workflow (BookWorkflow, WoodenToyWorkflow, CatalystEarlyAccessWorkflow) is started to make the gift. Once that child workflow is finished, activities are called to wrap the gift and load it into the sleigh.
@@ -20,6 +43,8 @@ These are the workflows Santa has written:
 2. [Dapr CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
    - Ensure that you're using v1.12 (or higher) of the Dapr runtime and the CLI.
 3. A REST client, such as [cURL](https://curl.se/), or the VSCode [REST client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).
+
+## Running the solution locally
 
 To run the SantaWorkflow:
 
@@ -36,3 +61,35 @@ To run the SantaWorkflow:
     ```
 
 3. Use the HTTP endpoints in the [local-workflow-test.http](./local-workflow-tests.http) file to start the workflow and check the status.
+
+    **Start the workflow:**
+
+    ```http
+    @app_url=http://localhost:5065
+    // @name startRequest
+    POST {{app_url}}/start
+    Content-Type: application/json
+
+    [
+        {
+            "Name" : "Alex",
+            "GiftType" : "WoodenToy"
+        },
+        {
+            "Name" : "Rene",
+            "GiftType" : "Book"
+        },
+        {
+            "Name" : "Robin",
+            "GiftType" : "CatalystEarlyAccess"
+        }
+    ]
+    ```
+
+    **Get the workflow status:**
+
+    ```http
+    @dapr_url=http://localhost:3500
+    @instanceId={{startRequest.response.body.*}}
+    GET {{dapr_url}}/v1.0-beta1/workflows/dapr/{{instanceId}}
+    ```
