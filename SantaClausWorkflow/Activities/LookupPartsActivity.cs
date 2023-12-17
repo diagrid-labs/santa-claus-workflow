@@ -22,7 +22,7 @@ namespace SantaClausWorkflowDemo
             Console.WriteLine($"Looking up the parts for {input.GiftId}...");
             Thread.Sleep(1000);
             var random = new Random();
-            var partsRange = new Range(1, random.Next(1, 10));
+            var partsRange = new Range(1, random.Next(1, 15));
             var partIds = Enumerable.Range(partsRange.Start.Value, partsRange.End.Value)
                 .Select(x => $"Part{x}-{Guid.NewGuid()}")
                 .ToArray();

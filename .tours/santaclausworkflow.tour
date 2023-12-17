@@ -87,6 +87,11 @@
       "line": 25
     },
     {
+      "file": "SantaClausWorkflow/Activities/RegisterGiftActivity.cs",
+      "description": "### RegisterWishActivity - DaprClient in constructor",
+      "line": 10
+    },
+    {
       "file": "SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs",
       "description": "### ChristmasWishWorkflow - Call AssignWorkbenchActivity",
       "line": 30
@@ -119,7 +124,7 @@
     {
       "file": "SantaClausWorkflow/Workflows/ChristmasWishWorkflow.cs",
       "description": "### ChristmasWishWorkflow - return message\r\n\r\nReturn the specific gift workflow message back to the parent workflow (`SantaClausWorkflow`).",
-      "line": 56
+      "line": 57
     },
     {
       "file": "SantaClausWorkflow/Workflows/BookWorkflow.cs",
@@ -170,6 +175,11 @@
       "file": "SantaClausWorkflow/Workflows/WoodenToyWorkflow.cs",
       "description": "### WoodenToyWorkflow - Call LookupPartsActivity",
       "line": 12
+    },
+    {
+      "file": "SantaClausWorkflow/Activities/LookupPartsActivity.cs",
+      "description": "### LookupPartsActivity ",
+      "line": 18
     },
     {
       "file": "SantaClausWorkflow/Workflows/WoodenToyWorkflow.cs",

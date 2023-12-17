@@ -20,7 +20,7 @@ namespace SantaClausWorkflowDemo
                     new CollectPartInput(input.GiftId, partId, input.WorkbenchId)));
             }
 
-            // Wait for all the elves to finish collecting the parts.
+            // Wait for all the elves to finish delivering the parts to the workbench.
             await Task.WhenAll(collectPartTasks);
 
             // The construction elf will assemble the wooden toy.

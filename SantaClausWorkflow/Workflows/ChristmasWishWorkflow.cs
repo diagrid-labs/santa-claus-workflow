@@ -17,7 +17,7 @@ namespace SantaClausWorkflowDemo
                 return new ChristmasWishOutput($"{input.Name}, is on the naughty list!");
             }
 
-            // Register the person & their wish in Santa's database.
+            // A notary elf will register the person & their wish in Santa's database.
             var registerWishOutput = await context.CallActivityAsync<RegisterWishOutput>(
                 nameof(RegisterWishActivity),
                 new RegisterWishInput(
@@ -53,6 +53,7 @@ namespace SantaClausWorkflowDemo
                     registerWishOutput.GiftId,
                     assignWorkbenchOutput.WorkbenchId));
 
+            // Return the message from the gift workflow back to the SantaClausWorkflow.
             return new ChristmasWishOutput(giftWorkflowOutput.Message);
         }
 

@@ -6,7 +6,7 @@ namespace SantaClausWorkflowDemo
     {
         public override async Task<GiftWorkflowOutput> RunAsync(WorkflowContext context, GiftWorkflowInput input)
         {
-            // A Diagrid elf will put your name on the early access list for Catalyst,
+            // A Diagrid elf will send a link you can use to get on the early access list for Catalyst,
             // so you can make complex architectures simple, reliable
             // and secure with APIs that connect to your existing infrastructure
             // and work with your existing code.
