@@ -125,7 +125,7 @@ To run the SantaWorkflow:
     dapr run -f .
     ```
 
-3. Use the HTTP endpoints in the [local-workflow-test.http](./local-workflow-tests.http) file to start the workflow and check the status.
+3. Use the HTTP endpoints in the [local-workflow-tests.http](./local-workflow-tests.http) file to start the workflow and check the status.
 
     **Start the workflow:**
 
@@ -158,3 +158,19 @@ To run the SantaWorkflow:
     @instanceId={{startRequest.response.body.*}}
     GET {{dapr_url}}/v1.0-beta1/workflows/dapr/{{instanceId}}
     ```
+
+## Project structure
+
+- `SantaClausWorkflow.sln` — Solution file.
+- `SantaClausWorkflow/` — The web app hosting Santa's workflows.
+  - `Workflows/` — `SantaClausWorkflow`, `ChristmasWishWorkflow`, `BookWorkflow`, `WoodenToyWorkflow`, `CatalystEarlyAccessWorkflow`.
+  - `Activities/` — All workflow activities (naughty-or-nice, wrap, deliver, etc.).
+  - `Program.cs` — App startup and HTTP endpoints (`/start`, status).
+- `dapr.yaml` — Dapr multi-app run file.
+- `local-workflow-tests.http` — REST requests to start the workflow and inspect status.
+- `Resources/` — Component / configuration files used by the Dapr sidecar.
+- `.tours/` — VS Code Tour walkthroughs.
+
+---
+
+Join the [Dapr Discord](https://diagrid.ws/dapr-discord) for Q&A and chat with other community members!
