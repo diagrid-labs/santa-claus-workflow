@@ -203,7 +203,7 @@
     },
     {
       "file": "SantaClausWorkflow/Workflows/CatalystEarlyAccessWorkflow.cs",
-      "description": "### CatalystEarlyAccessWorkflow\r\n\r\nThe `CatalystEarlyAccessWorkflow` contains one activity that returns a link to get early access to Diagrid Catalyst. It uses generic `GiftWorkflowInput` and `GiftWorkflowOutput` types that are also used for the other specific gift workflows.",
+      "description": "### CatalystEarlyAccessWorkflow\r\n\r\nThe `CatalystEarlyAccessWorkflow` contains one activity that returns a link to get early access to Diagrid. It uses generic `GiftWorkflowInput` and `GiftWorkflowOutput` types that are also used for the other specific gift workflows.",
       "line": 5
     }
   ]
